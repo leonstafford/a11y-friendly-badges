@@ -1,0 +1,16 @@
+name: 'a11y friendly badges for GitHub'
+author: 'Leon Stafford'
+description: 'A GitHub Action that uses information from your build to generate accessible project statistics.'
+inputs:
+  update_commands:
+    description: 'The command used to update your README or other file'
+    required: true
+    default: 'echo "You have not supplied any update_commands"'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.update_commands }}
+branding:
+  icon: 'hash'
+  color: 'orange'
