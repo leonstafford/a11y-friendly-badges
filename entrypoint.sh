@@ -4,16 +4,11 @@ set -eou pipefail
 # Debug: just testing output while building
 echo "### DEBUG ###"
 
-pwd
+pwd # /github/workspace
 
-ls
+ls # project root's files
 
-ls /home/runner/work/WhatWouldViktorDo/WhatWouldViktorDo
-
-ls /home/runner/work/WhatWouldViktorDo
-
-
-
+echo "### END DEBUG ###"
 
 
 # run the user supplied function
