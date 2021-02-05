@@ -5,12 +5,12 @@ set -eou pipefail
 echo "### DEBUG ###"
 
 # run the user supplied function
-function execute_user_command() {
+execute_user_command() {
   set -x
   "$@"
   set +x
 }
 
-execute_user_command( $1 );
+execute_user_command "$1";
 
 # we should take care of the saving after this
