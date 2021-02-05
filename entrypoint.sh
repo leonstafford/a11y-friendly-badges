@@ -1,12 +1,8 @@
 #!/bin/sh
 set -eou pipefail
 
-git fetch --tags
-
-latestVersionTag=$(git describe --tags "$(git rev-list --tags --max-count=1)");
-
 # Debug: just testing output while building
-echo "$latestVersionTag"
+echo "### DEBUG ###"
 
 # run the user supplied function
 function execute_user_command() {

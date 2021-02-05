@@ -27,7 +27,7 @@ on:
 jobs:
   update-code-coverage:
     runs-on: ubuntu-latest
-    name: 
+    name: Update project stats
     steps:
     - uses: actions/checkout@master
     - name: Update version
