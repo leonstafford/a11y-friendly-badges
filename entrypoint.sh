@@ -4,7 +4,7 @@ set -eou pipefail
 # Debug: just testing output while building
 echo "### DEBUG ###"
 
-pwd # /github/workspace
+pwd # /github/workspace, GITHUB_WORKSPACE dir if actions/checkout used
 
 ls # project root's files
 
