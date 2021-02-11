@@ -8,41 +8,70 @@ Let's do better not to exclude blind/visually-impaired users from open source!
 
 I'll try to make this flexible enough to be usable in any projects.
 
-## Inputs
 
- - `update_commands` The command used to update your README or other file
+## Getting started
 
-## Example usage
+ - add a shell script to modify your README in `./github/update_stats/`
 
-You define the actual rewriting functionality. This action just handles doing
- the commit for you.
+ie 
 
+```sh
+#!/bin/sh
+
+# replace code coverage % in README into temp file
+cat README.md | sed "/Coverage:/ c Coverage: $NEW_COVERAGE" | sed 's/\x1b\[[0-9;]*m//g' > NEWREADME.md
+
+# overwrite README with tempfile
+mv NEWREADME.md README.md
 ```
-name: Update project stats in README
-on:
-  push:
-    branches:
-      - master
 
-jobs:
-  update-code-coverage:
-    runs-on: ubuntu-latest
-    name: Update project stats
-    steps:
-    - uses: actions/checkout@master
-    - name: Update version
-      id: update-badges
+ - add this action within your GitHub Actions workflow:
+
+```yaml
+    - name: Update project stats
       uses: leonstafford/a11y-friendly-badges@master
-      with:
-        update_commands: >
-          NEW_COVERAGE="$(composer coverage | grep Cov | sed 's/Cov://' | xargs)" &&
-          sed -i "s/Coverage:/c\Coverage: $NEW_COVERAGE" ./README.md
 ```
+
+ - add a step to do the commit with desired author/message:
+
+```yaml
+    - name: Commit files
+      run: |
+        git config --local user.email "me@ljs.dev"
+        git config --local user.name "Leon Stafford"
+        git commit -m "Update project stats" -a || echo "No project stats changes to commit"
+```
+
+ - add the [ad-m/github-push-action](https://github.com/ad-m/github-push-action) to handle the commit/push
+
+```yaml
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+```
+
+## Example projects with accessible badges
+
+Inspect these for inspiration:
+
+ - [WhatWouldViktorDo](https://github.com/leonstafford/WhatWouldViktorDo)
+
+## Developer pain vs user-empathy
+
+Yes, this will create extra commits in your repo. Yes, you will need to `git pull --rebase` before pushing after a README update.
+
+Is that painful? No, not when considering the alternative is to make your badges useless for the blind/visually impaired.
+
+Suck it up, be an empathetic engineer!
 
 ## Roadmap
 
- - store values from other steps in build to use in this action
- - override the commit message used
+ - [x] store values from other steps in build to use in this action
+ - [x] override the commit message used
+ - [ ] share library of common stat processing scripts
+ - [ ] add some shellchecks to the mix
 
 ## Design aims
 
