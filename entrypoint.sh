@@ -9,7 +9,7 @@ pwd # /github/workspace, GITHUB_WORKSPACE dir if actions/checkout used
 ls # project root's files
 
 echo "1 $NEW_COVERAGE"                                              
-echo "2 ${{ env.NEW_COVERAGE }}"  
+#echo "2 ${{ env.NEW_COVERAGE }}"  
 
 env | grep COVERAGE
 
