@@ -8,16 +8,18 @@ pwd # /github/workspace, GITHUB_WORKSPACE dir if actions/checkout used
 
 ls # project root's files
 
+echo "1 $NEW_COVERAGE"                                              
+echo "2 ${{ env.NEW_COVERAGE }}"  
+
+env | grep COVERAGE
+
+
 echo "### END DEBUG ###"
 
 
-# run the user supplied function
-execute_user_command() {
-  set -x
-  "$@"
-  set +x
-}
+# run the user supplied function(s)
 
-execute_user_command "$1";
+for f in ./.github/update_stats/*.sh; do source $f; done
+
 
 # we should take care of the saving after this
